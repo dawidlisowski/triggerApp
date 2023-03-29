@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div style="text-align: center;">
+        <h1 th:if="${hasError != null}">Form zawiera błędy</h1>
+    <table border="1" style="margin: auto">
+        <tr>
+            <th>Numer</th>
+            <th>Znak</th>
+            <th>Temperatura</th>
+            <th>Wiadomość</th>
+            <th>Miasto</th>
+        </tr>
+        <tr th:each="alert : ${alerts}">
+            <td th:text="${alert.getPhone()}"></td>
+            <td th:text="${alert.getTriggerType().name()}"></td>
+            <td th:text="${alert.getTemperature()}"></td>
+            <td th:text="${alert.getMessage()}"></td>
+            <td th:text="${alert.getCity()}"></td>
+        </tr>
+    </table>
+
+        <form action="/" method="post" th:object="${alertForm}">
+            <input type="text" th:field="*{phone}" placeholder="Telefon"/>
+            <input type="number" th:field="*{temperature}" placeholder="Temperatura"/>
+            <input type="text" th:field="*{message}" placeholder="Wiadomosc"/>
+            <input type="text" th:field="*{city}" placeholder="Miasto"/>
+            <select th:field="*{triggerType}">
+                <option th:each="state : ${T(pl.dawidlisowski.someTriggerApp.models.entities.AlertEntity.TriggerType).values()}"
+                        th:text="${state.name()}" th:value="${state.name()}"></option>
+            </select>
+            <input type="submit" value="Wyslij">
+        </form>
+    </div>
+</body>
+</html>
